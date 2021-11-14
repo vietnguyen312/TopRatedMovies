@@ -12,7 +12,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => context.localizations.appName,
       theme: themeData,
-      routes: Routes.routes,
+      onGenerateRoute: Routes.generateRoute,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
         AppLocalizations.delegate,

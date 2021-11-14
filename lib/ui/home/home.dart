@@ -12,6 +12,7 @@ import 'package:topratedmovies/models/movie.dart';
 import 'package:topratedmovies/stores/top_rated_movies_store.dart';
 import 'package:topratedmovies/ui/widgets/app_bar.dart';
 import 'package:topratedmovies/utils/helpers.dart';
+import 'package:topratedmovies/utils/routes/routes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -139,15 +140,23 @@ class _MovieItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _CardItemWrapper(
-      child: Row(
-        children: [
-          SizedBox(
-            width: 60,
-            height: 90,
-            child: _posterWidget(context),
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.movieDetail, arguments: _movie);
+          },
+          child: Row(
+            children: [
+              SizedBox(
+                width: 60,
+                height: 90,
+                child: _posterWidget(context),
+              ),
+              Expanded(child: _movieInformation(context))
+            ],
           ),
-          Expanded(child: _movieInformation(context))
-        ],
+        ),
       ),
     );
   }
