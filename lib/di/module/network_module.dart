@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:topratedmovies/data/constants/endpoints.dart';
 
@@ -6,8 +9,7 @@ abstract class NetworkModule {
     final dio = Dio()
       ..options.baseUrl = Endpoints.baseUrl
       ..options.connectTimeout = Endpoints.connectionTimeout
-      ..options.receiveTimeout = Endpoints.receiveTimeout
-      ..options.headers = {'Content-Type': 'application/json; charset=utf-8'};
+      ..options.receiveTimeout = Endpoints.receiveTimeout;
     return dio;
   }
 }

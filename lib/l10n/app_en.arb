@@ -1,4 +1,8 @@
 {
     "appName": "Top Rated Movies",
-    "@appName": {}
+    "@appName": {},
+    "noContent": "There is no rated movies right now",
+    "@noContent": {},
+    "imageNotAvailable": "Image not available",
+    "@imageNotAvailable": {}
 }

@@ -20,7 +20,7 @@ class App extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: Center(child: Text('Top rated movies')),
+      initialRoute: Routes.home,
     );
   }
 }
