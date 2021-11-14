@@ -9,7 +9,7 @@ final ThemeData themeData = ThemeData(
   primarySwatch: Colors.blue,
   appBarTheme: AppBarTheme(
     backgroundColor: AppColors.blue[500],
-    titleTextStyle: const TextStyle(color: Colors.white),
+    titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
   ),
   inputDecorationTheme: InputDecorationTheme(
     isDense: true,

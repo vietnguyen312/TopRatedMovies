@@ -7,11 +7,10 @@ AppBar defaultAppBar({
   List<Widget>? actions,
 }) {
   return AppBar(
-      title: Center(
-        child: Text(
-          title,
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+      centerTitle: true,
+      title: Text(
+        title,
+        style: Theme.of(context).appBarTheme.titleTextStyle,
       ),
       actions: actions);
 }
