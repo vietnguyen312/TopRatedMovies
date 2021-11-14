@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:topratedmovies/constants/colors.dart';
 import 'package:topratedmovies/constants/dimens.dart';
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   static const listViewLoadMoreOffset = 300;
   late TopRatedMoviesStore _ratedMoviesStore;
   late ScrollController _controller;
+  ReactionDisposer? _errorMessageReaction;
 
   @override
   void initState() {
@@ -40,12 +42,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   void didChangeDependencies() {
     super.didChangeDependencies();
     _ratedMoviesStore = Provider.of<TopRatedMoviesStore>(context);
+    _errorMessageReaction ??= reaction((_) => _ratedMoviesStore.networkCallError, (String? message) {
+      if (message != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      }
+    });
     _ratedMoviesStore.fetchInitData();
   }
 
   @override
   void dispose() {
     _controller.removeListener(_scrollListener);
+    _errorMessageReaction?.call();
     super.dispose();
   }
 

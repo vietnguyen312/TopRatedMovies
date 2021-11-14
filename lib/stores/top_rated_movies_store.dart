@@ -17,6 +17,9 @@ abstract class _TopRatedMoviesStore with Store {
   _TopRatedMoviesStore(this._repository);
 
   @observable
+  String? networkCallError = '';
+
+  @observable
   bool isInitialLoading = true;
 
   @observable
@@ -32,12 +35,18 @@ abstract class _TopRatedMoviesStore with Store {
   }
 
   Future _fetchTopRatedMovies() async {
-    final response = await _repository.fetchTopRatedMovies(page: _currentPage + 1);
-    if (response?.results?.isNotEmpty ?? false) {
-      _currentPage++;
-      _isOutOfMovies = _currentPage >= (response?.totalPages ?? 0);
-      _topRatedMovies.addAll(response!.results!);
-      filteredTopRatedMovies.addAll(_filterReleasedDateMovies(response.results!));
+    try {
+      networkCallError = null;
+      final response = await _repository.fetchTopRatedMovies(page: _currentPage + 1);
+      if (response?.results?.isNotEmpty ?? false) {
+        _currentPage++;
+        _isOutOfMovies = _currentPage >= (response?.totalPages ?? 0);
+        _topRatedMovies.addAll(response!.results!);
+        filteredTopRatedMovies.addAll(_filterReleasedDateMovies(response.results!));
+      }
+    } on Exception catch (_) {
+      // TODO: Should specify message detail
+      networkCallError = 'Something went wrong';
     }
   }
 

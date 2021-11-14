@@ -9,6 +9,22 @@ part of 'top_rated_movies_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$TopRatedMoviesStore on _TopRatedMoviesStore, Store {
+  final _$networkCallErrorAtom =
+      Atom(name: '_TopRatedMoviesStore.networkCallError');
+
+  @override
+  String? get networkCallError {
+    _$networkCallErrorAtom.reportRead();
+    return super.networkCallError;
+  }
+
+  @override
+  set networkCallError(String? value) {
+    _$networkCallErrorAtom.reportWrite(value, super.networkCallError, () {
+      super.networkCallError = value;
+    });
+  }
+
   final _$isInitialLoadingAtom =
       Atom(name: '_TopRatedMoviesStore.isInitialLoading');
 
@@ -40,18 +56,19 @@ mixin _$TopRatedMoviesStore on _TopRatedMoviesStore, Store {
     });
   }
 
-  final _$topRatedMoviesAtom =
-      Atom(name: '_TopRatedMoviesStore.topRatedMovies');
+  final _$filteredTopRatedMoviesAtom =
+      Atom(name: '_TopRatedMoviesStore.filteredTopRatedMovies');
 
   @override
   ObservableList<Movie> get filteredTopRatedMovies {
-    _$topRatedMoviesAtom.reportRead();
+    _$filteredTopRatedMoviesAtom.reportRead();
     return super.filteredTopRatedMovies;
   }
 
   @override
   set filteredTopRatedMovies(ObservableList<Movie> value) {
-    _$topRatedMoviesAtom.reportWrite(value, super.filteredTopRatedMovies, () {
+    _$filteredTopRatedMoviesAtom
+        .reportWrite(value, super.filteredTopRatedMovies, () {
       super.filteredTopRatedMovies = value;
     });
   }
@@ -88,9 +105,10 @@ mixin _$TopRatedMoviesStore on _TopRatedMoviesStore, Store {
   @override
   String toString() {
     return '''
+networkCallError: ${networkCallError},
 isInitialLoading: ${isInitialLoading},
 isLoadingMore: ${isLoadingMore},
-topRatedMovies: ${filteredTopRatedMovies}
+filteredTopRatedMovies: ${filteredTopRatedMovies}
     ''';
   }
 }
