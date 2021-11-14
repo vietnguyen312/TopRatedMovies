@@ -10,6 +10,9 @@ abstract class _TopRatedMoviesStore with Store {
   final Repository _repository;
   int _currentPage = 0;
   bool _isOutOfMovies = false;
+  int? _fromReleasedYearFilter;
+  int? _toReleasedYearFilter;
+  final List<Movie> _topRatedMovies = [];
 
   _TopRatedMoviesStore(this._repository);
 
@@ -20,7 +23,7 @@ abstract class _TopRatedMoviesStore with Store {
   bool isLoadingMore = false;
 
   @observable
-  ObservableList<Movie> topRatedMovies = ObservableList();
+  ObservableList<Movie> filteredTopRatedMovies = ObservableList();
 
   @action
   Future fetchInitData() async {
@@ -33,7 +36,8 @@ abstract class _TopRatedMoviesStore with Store {
     if (response?.results?.isNotEmpty ?? false) {
       _currentPage++;
       _isOutOfMovies = _currentPage >= (response?.totalPages ?? 0);
-      topRatedMovies.addAll(response!.results!);
+      _topRatedMovies.addAll(response!.results!);
+      filteredTopRatedMovies.addAll(_filterReleasedDateMovies(response.results!));
     }
   }
 
@@ -45,5 +49,29 @@ abstract class _TopRatedMoviesStore with Store {
     isLoadingMore = true;
     await _fetchTopRatedMovies();
     isLoadingMore = false;
+  }
+
+  @action
+  void filterReleasedDateChanged(int? fromYear, int? toYear) {
+    _fromReleasedYearFilter = fromYear;
+    _toReleasedYearFilter = toYear;
+    filteredTopRatedMovies.clear();
+    filteredTopRatedMovies.addAll(_filterReleasedDateMovies(_topRatedMovies));
+  }
+
+  List<Movie> _filterReleasedDateMovies(List<Movie> movies) {
+    return movies.where((element) {
+      bool isReleasedInRange = true;
+      if (_fromReleasedYearFilter != null && element.releaseDate != null) {
+        isReleasedInRange = element.releaseDate!.year >= _fromReleasedYearFilter!;
+        if (!isReleasedInRange) {
+          return false;
+        }
+      }
+      if (_toReleasedYearFilter != null && element.releaseDate != null) {
+        isReleasedInRange = element.releaseDate!.year <= _toReleasedYearFilter!;
+      }
+      return isReleasedInRange;
+    }).toList();
   }
 }

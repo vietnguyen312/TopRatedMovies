@@ -6,7 +6,7 @@ part 'movie.g.dart';
 class Movie {
   int? id;
   String? title;
-  String? releaseDate;
+  DateTime? releaseDate;
   String? posterPath;
   double? voteAverage;
   int? voteCount;

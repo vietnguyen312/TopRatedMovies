@@ -4,5 +4,15 @@
     "noContent": "There is no rated movies right now",
     "@noContent": {},
     "imageNotAvailable": "Image not available",
-    "@imageNotAvailable": {}
+    "@imageNotAvailable": {},
+    "yearFilterTitle": "Input year to filter",
+    "@yearFilterTitle": {},
+    "fromYear": "From year",
+    "@fromYear": {},
+    "toYear": "To year",
+    "@toYear": {},
+    "ok": "Ok",
+    "@ok": {},
+    "cancel": "Cancel",
+    "@cancel": {}
 }

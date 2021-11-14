@@ -44,15 +44,15 @@ mixin _$TopRatedMoviesStore on _TopRatedMoviesStore, Store {
       Atom(name: '_TopRatedMoviesStore.topRatedMovies');
 
   @override
-  ObservableList<Movie> get topRatedMovies {
+  ObservableList<Movie> get filteredTopRatedMovies {
     _$topRatedMoviesAtom.reportRead();
-    return super.topRatedMovies;
+    return super.filteredTopRatedMovies;
   }
 
   @override
-  set topRatedMovies(ObservableList<Movie> value) {
-    _$topRatedMoviesAtom.reportWrite(value, super.topRatedMovies, () {
-      super.topRatedMovies = value;
+  set filteredTopRatedMovies(ObservableList<Movie> value) {
+    _$topRatedMoviesAtom.reportWrite(value, super.filteredTopRatedMovies, () {
+      super.filteredTopRatedMovies = value;
     });
   }
 
@@ -71,12 +71,26 @@ mixin _$TopRatedMoviesStore on _TopRatedMoviesStore, Store {
     return _$loadMoreAsyncAction.run(() => super.loadMore());
   }
 
+  final _$_TopRatedMoviesStoreActionController =
+      ActionController(name: '_TopRatedMoviesStore');
+
+  @override
+  void filterReleasedDateChanged(int? fromYear, int? toYear) {
+    final _$actionInfo = _$_TopRatedMoviesStoreActionController.startAction(
+        name: '_TopRatedMoviesStore.filterReleasedDateChanged');
+    try {
+      return super.filterReleasedDateChanged(fromYear, toYear);
+    } finally {
+      _$_TopRatedMoviesStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 isInitialLoading: ${isInitialLoading},
 isLoadingMore: ${isLoadingMore},
-topRatedMovies: ${topRatedMovies}
+topRatedMovies: ${filteredTopRatedMovies}
     ''';
   }
 }

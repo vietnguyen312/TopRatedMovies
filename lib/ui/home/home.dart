@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:topratedmovies/constants/colors.dart';
+import 'package:topratedmovies/constants/dimens.dart';
 import 'package:topratedmovies/data/constants/endpoints.dart';
 import 'package:topratedmovies/gen/assets.gen.dart';
 import 'package:topratedmovies/models/movie.dart';
@@ -50,7 +52,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: defaultAppBar(context: context, title: context.localizations.appName),
+      appBar: defaultAppBar(
+        context: context,
+        title: context.localizations.appName,
+        actions: [
+          IconButton(
+            icon: Assets.images.filter.image(),
+            onPressed: _onFilterClicked,
+          )
+        ],
+      ),
       body: Observer(
         builder: (_) {
           return _ratedMoviesStore.isInitialLoading
@@ -61,14 +72,26 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
   }
 
+  Future _onFilterClicked() async {
+    final yearRange = await showDialog(
+      context: context,
+      builder: (context) {
+        return _YearRangeFilterDialog();
+      },
+    );
+    if (yearRange is _YearRange) {
+      _ratedMoviesStore.filterReleasedDateChanged(yearRange.fromYear, yearRange.toYear);
+    }
+  }
+
   Widget _topRatedMoviesListView() {
-    return _ratedMoviesStore.topRatedMovies.isNotEmpty
+    return _ratedMoviesStore.filteredTopRatedMovies.isNotEmpty
         ? ListView.builder(
             controller: _controller,
-            itemCount: _ratedMoviesStore.topRatedMovies.length + (_ratedMoviesStore.isLoadingMore ? 1 : 0),
+            itemCount: _ratedMoviesStore.filteredTopRatedMovies.length + (_ratedMoviesStore.isLoadingMore ? 1 : 0),
             itemBuilder: (_, index) {
-              if (index < _ratedMoviesStore.topRatedMovies.length) {
-                return _MovieItem(_ratedMoviesStore.topRatedMovies[index]);
+              if (index < _ratedMoviesStore.filteredTopRatedMovies.length) {
+                return _MovieItem(_ratedMoviesStore.filteredTopRatedMovies[index]);
               } else {
                 return _LoadingMoreItem();
               }
@@ -134,7 +157,10 @@ class _MovieItem extends StatelessWidget {
           ),
           Row(
             children: [
-              Expanded(child: Text(_movie.releaseDate ?? '', style: Theme.of(context).textTheme.caption)),
+              Expanded(
+                child:
+                    Text(_movie.releaseDate?.representation(context) ?? '', style: Theme.of(context).textTheme.caption),
+              ),
               Assets.images.star.image(width: 16, height: 16, fit: BoxFit.contain),
               const SizedBox(width: 4),
               Text(_movie.voteAverage?.toString() ?? '0', style: Theme.of(context).textTheme.bodyText2),
@@ -189,18 +215,85 @@ class _MovieItem extends StatelessWidget {
 }
 
 class _LoadingMoreItem extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return _CardItemWrapper(
-        child: Container(
-          alignment: Alignment.center,
-          child: const SizedBox(
-            width: 40,
-            height: 40,
-            child: CircularProgressIndicator(),
-          ),
-        )
+      child: Container(
+        alignment: Alignment.center,
+        child: const SizedBox(
+          width: 40,
+          height: 40,
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
+}
+
+class _YearRangeFilterDialog extends StatefulWidget {
+  @override
+  State createState() => _YearRangeFilterDialogState();
+}
+
+class _YearRangeFilterDialogState extends State<_YearRangeFilterDialog> {
+  final TextEditingController _fromYearTextController = TextEditingController();
+  final TextEditingController _toYearTextController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(context.localizations.yearFilterTitle),
+      content: Container(
+        padding: const EdgeInsets.only(top: Dimens.verticalPadding),
+        child: Row(
+          children: [
+            Expanded(
+              child: _yearInput(context.localizations.fromYear, _fromYearTextController),
+            ),
+            const SizedBox(width: Dimens.horizontalPadding / 2),
+            const Text('-'),
+            const SizedBox(width: Dimens.horizontalPadding / 2),
+            Expanded(child: _yearInput(context.localizations.toYear, _toYearTextController))
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, null),
+          child: Text(context.localizations.cancel, textAlign: TextAlign.end),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(
+              context,
+              _YearRange(
+                fromYear: int.tryParse(_fromYearTextController.text),
+                toYear: int.tryParse(_toYearTextController.text),
+              ),
+            );
+          },
+          child: Text(context.localizations.ok, textAlign: TextAlign.end),
+        ),
+      ],
+    );
+  }
+
+  Widget _yearInput(String label, TextEditingController controller) {
+    return TextField(
+      decoration: InputDecoration(
+        labelText: label,
+        counterText: '',
+      ),
+      maxLength: 4,
+      keyboardType: TextInputType.number,
+      controller: controller,
+    );
+  }
+}
+
+class _YearRange {
+  int? fromYear;
+  int? toYear;
+
+  _YearRange({this.fromYear, this.toYear});
 }
