@@ -28,6 +28,10 @@ abstract class _TopRatedMoviesStore with Store {
   @observable
   ObservableList<Movie> filteredTopRatedMovies = ObservableList();
 
+  int? get fromReleasedYearFilter => _fromReleasedYearFilter;
+
+  int? get toReleasedYearFilter => _toReleasedYearFilter;
+
   @action
   Future fetchInitData() async {
     await _fetchTopRatedMovies();

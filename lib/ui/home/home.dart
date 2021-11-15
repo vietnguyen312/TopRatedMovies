@@ -85,7 +85,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     final yearRange = await showDialog(
       context: context,
       builder: (context) {
-        return _YearRangeFilterDialog();
+        return _YearRangeFilterDialog(
+          fromYear: _ratedMoviesStore.fromReleasedYearFilter,
+          toYear: _ratedMoviesStore.toReleasedYearFilter,
+        );
       },
     );
     if (yearRange is _YearRange) {
@@ -225,6 +228,11 @@ class _LoadingMoreItem extends StatelessWidget {
 }
 
 class _YearRangeFilterDialog extends StatefulWidget {
+  final int? fromYear;
+  final int? toYear;
+
+  const _YearRangeFilterDialog({this.fromYear, this.toYear, Key? key}) : super(key: key);
+
   @override
   State createState() => _YearRangeFilterDialogState();
 }
@@ -232,6 +240,17 @@ class _YearRangeFilterDialog extends StatefulWidget {
 class _YearRangeFilterDialogState extends State<_YearRangeFilterDialog> {
   final TextEditingController _fromYearTextController = TextEditingController();
   final TextEditingController _toYearTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.fromYear != null) {
+      _fromYearTextController.text = widget.fromYear.toString();
+    }
+    if (widget.toYear != null) {
+      _toYearTextController.text = widget.toYear.toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
