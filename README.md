@@ -1,8 +1,10 @@
 # Top Rated Movies
 
-Flutter mobile app to show top rated movies from https://www.themoviedb.org/
+Flutter mobile app to show top rated movies from https://www.themoviedb.org/. 
 
 This project uses Mobx as state managerment architechture and adopt project template from https://github.com/zubairehman/flutter-boilerplate-project with some changes.
+
+**Downloaded APK**: [APK File](app-release.apk)
 
 ## Screenshots
 
@@ -12,7 +14,9 @@ This project uses Mobx as state managerment architechture and adopt project temp
   <img src="screenshots/detail_without_youtube.png" width="200" title="Detail without Yotube trailer existed">
 </p>
 
-<!-- ![Screenshots](screenshots/home.png) -->
+<em>The first one shows top rated movies</br>
+The second one shows movie with available Youtube trailer</br>
+The third one shows movie without Youtube trailer</em>
 
 ## How to build project
 
