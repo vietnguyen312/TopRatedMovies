@@ -10,6 +10,8 @@ class Movie {
   String? posterPath;
   double? voteAverage;
   int? voteCount;
+  String? overview;
+  String? backdropPath;
 
   Movie();
 

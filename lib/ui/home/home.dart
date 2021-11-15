@@ -10,7 +10,7 @@ import 'package:topratedmovies/data/constants/endpoints.dart';
 import 'package:topratedmovies/gen/assets.gen.dart';
 import 'package:topratedmovies/models/movie.dart';
 import 'package:topratedmovies/stores/top_rated_movies_store.dart';
-import 'package:topratedmovies/ui/widgets/app_bar.dart';
+import 'package:topratedmovies/ui/widgets/shared_widgets.dart';
 import 'package:topratedmovies/utils/helpers.dart';
 import 'package:topratedmovies/utils/routes/routes.dart';
 
@@ -190,44 +190,21 @@ class _MovieItem extends StatelessWidget {
 
   Widget _posterWidget(BuildContext context) {
     if (_movie.posterPath?.isNotEmpty ?? false) {
-      return Image.network(
+      return networkImage(
+        context,
         Endpoints.moviePoster(_movie.posterPath!),
-        fit: BoxFit.contain,
-        errorBuilder: (_, __, ___) => _noPoster(context),
-        loadingBuilder: (_, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Container(
-            alignment: Alignment.center,
-            child: const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 1.5),
-            ),
-          );
-        },
-      );
-    } else {
-      return _noPoster(context);
-    }
-  }
-
-  Widget _noPoster(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Assets.images.imagePlaceHolder.image(fit: BoxFit.contain),
-        const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+        loadingBuilder: (_) => Container(
           alignment: Alignment.center,
-          child: Text(
-            context.localizations.imageNotAvailable,
-            style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 10),
-            textAlign: TextAlign.center,
+          child: const SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(strokeWidth: 1.5),
           ),
         ),
-      ],
-    );
+      );
+    } else {
+      return const NoImagePlaceHolder();
+    }
   }
 }
 

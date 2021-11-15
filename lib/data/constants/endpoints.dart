@@ -8,6 +8,7 @@ class Endpoints {
   static const baseUrl = 'https://api.themoviedb.org/3/';
   static const getTopRatedMovies = baseUrl + 'movie/top_rated';
   static String moviePoster(String posterPath) => 'https://image.tmdb.org/t/p/w300/$posterPath';
+  static String getMovieTrailer(int movieId) => baseUrl + 'movie/$movieId/videos';
 
   static const pageQueryParam = 'page';
 }

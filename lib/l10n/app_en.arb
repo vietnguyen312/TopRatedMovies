@@ -14,5 +14,16 @@
     "ok": "Ok",
     "@ok": {},
     "cancel": "Cancel",
-    "@cancel": {}
+    "@cancel": {},
+    "votedAndCount": "{voted} - {count} votes",
+    "@votedAndCount": {
+        "placeholders": {
+            "voted": {
+                "type": "String"
+            },
+            "count": {
+                "type": "String"
+            }
+        }
+    }
 }
