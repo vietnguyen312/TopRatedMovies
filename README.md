@@ -4,6 +4,16 @@ Flutter mobile app to show top rated movies from https://www.themoviedb.org/
 
 This project uses Mobx as state managerment architechture and adopt project template from https://github.com/zubairehman/flutter-boilerplate-project with some changes.
 
+## Screenshots
+
+<p align="center">
+  <img src="screenshots/home.png" width="200" title="Home screen">
+  <img src="screenshots/detail_with_youtube.png" width="200" title="Detail with Yotube trailer">
+  <img src="screenshots/detail_without_youtube.png" width="200" title="Detail without Yotube trailer existed">
+</p>
+
+<!-- ![Screenshots](screenshots/home.png) -->
+
 ## How to build project
 
 ### Step 1: fetch needed libraries by command
