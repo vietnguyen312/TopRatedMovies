@@ -40,6 +40,18 @@ find more information in the link: https://flutter.dev/docs/deployment/android
 
 To build and run iOS app a macbook and Apple developer account are needed. check more detail in here https://flutter.dev/docs/deployment/ios
 
+## App architechture
+
+App is using Mobx as state management
+
+The UI layer observes data which is exposed by ```@observable``` annotation inside store and rebuild widget whenever observable data changed.
+
+The UI layer mutates state of store by action which is annotate with ```@action```
+
+Other aspect of Mobx is reaction, it triggers change of observer data and fire side-effect. Example: in home screen, errorMessageReaction triggers there is any new change in error message data in store. When it gets new data, it will present it to UI (side-effect).
+
+App is using service locator pattern to provide dependencies to usage place without exposing how to construct it. Example: Repository instance is provided to TopRatedMoviesStore constructor via getIt helpers. It works because a construct mechanism of Repository is registered inside service_locator.dart.
+
 ## Used libraries
 <ol>
   <li>intl (<em>https://pub.dev/packages/intl</em>): using it for localization and format datetime</li>
