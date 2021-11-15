@@ -9,14 +9,15 @@ class RemoteDatasource {
   RemoteDatasource(this._dioClient);
 
   Future<TopRatedMovieResponse?> fetchTopRatedMovies({int page = 1}) async {
-    final response = await _dioClient.get(Endpoints.getTopRatedMovies,
-        queryParameters: {Endpoints.pageQueryParam: page, 'api_key': Endpoints.apiKey});
+    final response = await _dioClient.get(
+      Endpoints.getTopRatedMovies,
+      queryParameters: {Endpoints.pageQueryParam: page},
+    );
     return TopRatedMovieResponse.fromJson(response);
   }
 
   Future<MovieTrailerResponse?> fetchMovieTrailers(int movieId) async {
-    final response =
-        await _dioClient.get(Endpoints.getMovieTrailer(movieId), queryParameters: {'api_key': Endpoints.apiKey});
+    final response = await _dioClient.get(Endpoints.getMovieTrailer(movieId));
     return MovieTrailerResponse.fromJson(response);
   }
 }

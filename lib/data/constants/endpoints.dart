@@ -11,4 +11,5 @@ class Endpoints {
   static String getMovieTrailer(int movieId) => baseUrl + 'movie/$movieId/videos';
 
   static const pageQueryParam = 'page';
+  static const apiKeyParam = 'api_key';
 }
