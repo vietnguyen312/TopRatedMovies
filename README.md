@@ -45,5 +45,6 @@ To build and run iOS app a macbook and Apple developer account are needed. check
   <li>json_serializable (<em>https://pub.dev/packages/json_serializable</em>): Cooparate with build_runner to generate code for json_annotation</li>
   <li>flutter_gen_runner (<em>https://pub.dev/packages/flutter_gen_runner</em>): Generate assets code for images, fonts... as static field</li>
   <li>flutter_lints (<em>https://pub.dev/packages/flutter_lints</em>): lints for Flutter apps, provide warning and suggestion on fly</li>
+  <li>flutter_launcher_icons (<em>https://pub.dev/packages/flutter_launcher_icons</em>): Generate app's launcher icon</li>
 </ol>
 
